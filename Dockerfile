@@ -6,13 +6,14 @@ EXPOSE 80 443 3443
 
 ARG VERSION="2.5.1"
 ARG CHANNEL="releases"
+arg EXT="com"
 
 RUN apt-get update && apt-get install wget bzip2 -y && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN echo "$CHANNEL" | grep "releases" 2>&1 > /dev/null \
- && URL="https://nexus.linagora.com/service/local/artifact/maven/content?r=linshare-${CHANNEL}&g=org.linagora.linshare&a=linshare-ui-admin&v=${VERSION}" \
- || URL="https://nexus.linagora.com/service/local/artifact/maven/content?r=linshare-${CHANNEL}&g=org.linagora.linshare&a=linshare-ui-admin&v=${VERSION}-SNAPSHOT"; \
+ && URL="https://nexus.linagora.${EXT}/service/local/artifact/maven/content?r=linshare-${CHANNEL}&g=org.linagora.linshare&a=linshare-ui-admin&v=${VERSION}" \
+ || URL="https://nexus.linagora.${EXT}/service/local/artifact/maven/content?r=linshare-${CHANNEL}&g=org.linagora.linshare&a=linshare-ui-admin&v=${VERSION}-SNAPSHOT"; \
  wget --no-check-certificate --progress=bar:force:noscroll \
  -O ui-admin.tar.bz2 "${URL}&p=tar.bz2" \
  && wget --no-check-certificate --progress=bar:force:noscroll \
